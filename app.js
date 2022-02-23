@@ -6,6 +6,7 @@ const methodOverride = require('method-override')
 const passport = require('passport')
 const session = require('express-session')
 const MongoStore = require('connect-mongo')(session)
+//const bodyParser = require("body-parser");
 
 
 var app=express();
@@ -46,7 +47,6 @@ app.use(passport.session())
 app.use(require("./routes/index"))
 app.use('/auth', require('./routes/auth'))
 app.use(require("./routes/todo"))
-
 
 
 

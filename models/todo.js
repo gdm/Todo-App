@@ -4,6 +4,10 @@ const Todoschema=new mongoose.Schema({
         type:String,
         required:true,
     },
+    title:{
+        type:String,
+        required: false,
+    },
     email_:{
         type:String,
         required: true,
