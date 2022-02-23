@@ -32,7 +32,7 @@ app.set('view engine','ejs');
 
 app.use(
     session({
-      secret: 'keyboard cat',
+      secret: 'keyboard cat', // todo: changeit
       resave: false,
       saveUninitialized: false,
       store: new MongoStore({ mongooseConnection: mongoose.connection }),
