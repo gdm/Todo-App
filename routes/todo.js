@@ -17,6 +17,19 @@ router.post('/add/todo',(req,res)=>{
     .catch(err=>console.log(err))
 })
 
+// TODO: not implemented properly
+.get("/edit/todo/:_id",(req,res)=>{
+    const {_id}=req.params;
+    const info=Todo_model.find();
+    console.log(info)
+    Todo_model.updateOne({_id}, { title:"new title"})
+    .then(()=>{
+        console.log("updated (title)")
+        res.redirect('/')
+    })
+    .catch((err)=>console.log(err));
+})
+
 .get("/delete/todo/:_id",(req,res)=>{
     const {_id}=req.params;
     Todo_model.deleteOne({_id})
@@ -33,7 +46,7 @@ router.post('/add/todo',(req,res)=>{
     console.log(info)
     Todo_model.updateOne({_id}, { done:"1"})
     .then(()=>{
-        console.log("deleted")
+        console.log("updated(done:1)")
         res.redirect('/')
     })
     .catch((err)=>console.log(err));
