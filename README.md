@@ -21,10 +21,52 @@ path
 ```
 
 # Demo
-fill the Todo-App/config/config.env with MONGO_URI , GOOGLE_CLIENT_ID , GOOGLE_CLIENT_SECRET and then 
+Setup DNS, HTTPS host (nginx):
+```
+    server {
+        listen       443 ssl http2 default_server;
+        listen       [::]:443 ssl http2 default_server;
+        server_name  coding-assesment.savesources.com;
+        root         /usr/share/nginx/html;
 
-Run by ``` npm run dev  ```
+        ssl_certificate "/etc/letsencrypt/live/coding-assesment.savesources.com/fullchain.pem";
+        ssl_certificate_key "/etc/letsencrypt/live/coding-assesment.savesources.com/privkey.pem";
+        ssl_session_cache shared:SSL:1m;
+        ssl_session_timeout  10m;
+        ssl_ciphers HIGH:!aNULL:!MD5;
+        ssl_prefer_server_ciphers on;
 
-[VIEW DEMO](http://todo-appes.herokuapp.com/)
+        # Load configuration files for the default server block.
+        include /etc/nginx/default.d/*.conf;
 
-![](todo.gif)
+        location / {
+          #proxy_set_header   Host             $host;
+          proxy_pass_request_headers on;
+          proxy_pass http://127.0.0.1:3000;
+        }
+
+        error_page 404 /404.html;
+            location = /40x.html {
+        }
+
+        error_page 500 502 503 504 /50x.html;
+            location = /50x.html {
+        }
+    }
+
+```
+
+Run ``` npm install ``` for installing dependency (tested with nodejs v14.19.0 under nvm).
+
+Register application('project) in Google Console https://console.developers.google.com/ , then generate CLIENT_ID and CLIENT_SECRET (Credentials->OAuth 2.0 Client ID).
+
+Create MongoDB database and get connection string (https://cloud.mongodb.com/ )
+
+Copy the config/config.env.template to config/config.env and update with MONGO_URI , GOOGLE_CLIENT_ID , GOOGLE_CLIENT_SECRET and APP_DOMAIN.
+
+Run test db connection by ``` npm test ```
+
+Run application ``` npm run dev  ```
+
+[VIEW DEMO](https://coding-assesment.savesources.com/)
+
