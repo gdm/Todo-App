@@ -40,6 +40,17 @@ router.post('/add/todo',(req,res)=>{
     .catch((err)=>console.log(err));
 })
 
+.get("/reset",(req,res)=>{
+    const {_id}=req.params;
+    const {email_}=req.user.email;
+    Todo_model.deleteMany({ email_: req.user.email})
+    .then(()=>{
+        console.log("deleted all")
+        res.redirect('/')
+    })
+    .catch((err)=>console.log(err));
+})
+
 .get("/update/todo/:_id",(req,res)=>{
     const {_id}=req.params;
     const info=Todo_model.find();
